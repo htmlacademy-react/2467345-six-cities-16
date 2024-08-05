@@ -1,4 +1,7 @@
+import { useParams } from 'react-router-dom';
+
 function OfferScreen(): JSX.Element {
+  const params = useParams();
   return(
     <div className="page">
       <header className="header">
@@ -61,7 +64,7 @@ function OfferScreen(): JSX.Element {
               </div>
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  Beautiful &amp; luxurious studio at great location
+                  Beautiful &amp; luxurious studio at great location {params.id}
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
