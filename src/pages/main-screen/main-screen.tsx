@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import OffersList from '../../components/main-screen/offers-list';
 import { Offer } from '../../types/offer';
 import Header from '../../components/header';

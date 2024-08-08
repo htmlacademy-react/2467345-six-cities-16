@@ -1,6 +1,5 @@
 import { Offer } from '../../types/offer';
 import OffersListByCity from './offers-list-by-city';
-import PlaceCardFavorite from './place-card-favorite';
 
 type FavoritesListProps = {
   offers: Offer[];
@@ -18,8 +17,6 @@ function FavoritesList({offers}: FavoritesListProps): JSX.Element{
   }
 
   const groupsFavorites = groupBy(offers, 'city', 'name');
-  console.log(Object.keys(groupsFavorites).map((key) => {return key}))
-
   return(
     <ul className="favorites__list">
       {Object.keys(groupsFavorites).map((key) => (<OffersListByCity key={key} offers={groupsFavorites[key]}/>))}
