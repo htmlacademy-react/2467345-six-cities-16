@@ -1,19 +1,34 @@
 import OffersList from '../../components/main-screen/offers-list';
 import { Offer } from '../../types/offer';
 import Header from '../../components/header';
+import Map from '../../components/map';
+import { City } from '../../types/city';
+import { useState } from 'react';
 
 type MainScreenProps = {
   countPlaces: number;
   offers: Offer[];
+  city: City;
 }
 
-function MainScreen({countPlaces, offers}: MainScreenProps): JSX.Element {
+function MainScreen({countPlaces, offers, city}: MainScreenProps): JSX.Element {
+
+  const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
+    undefined
+  );
+
+  const handleListItemHover = (listItemId: string) => {
+    const currentPoint = offers.find((offer) => offer.id === listItemId);
+
+    setSelectedOffer(currentPoint);
+  };
+
   return (
     <body>
       <div className="page page--gray page--main">
         <Header/>
 
-        <main className="page__main page__main--index">
+        <main className="page__main `page__main--index">
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <section className="locations container">
@@ -71,10 +86,12 @@ function MainScreen({countPlaces, offers}: MainScreenProps): JSX.Element {
                     <li className="places__option" tabIndex={0}>Top rated first</li>
                   </ul>
                 </form>
-                <OffersList offers={offers}/>
+                <OffersList offers={offers} onListItemHover={handleListItemHover}/>
               </section>
               <div className="cities__right-section">
-                <section className="cities__map map"></section>
+                <section className="cities__map map">
+                  <Map city={city} offers={offers} selectedOffer={selectedOffer}/>
+                </section>
               </div>
             </div>
           </div>

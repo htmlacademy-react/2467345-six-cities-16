@@ -4,22 +4,27 @@ import OffersListByCity from './offers-list-by-city';
 type FavoritesListProps = {
   offers: Offer[];
 }
+
+type GroupsFavorites = {
+  [key: string]: Offer[];
+}
 function FavoritesList({offers}: FavoritesListProps): JSX.Element{
 
-  function groupBy(arr : Offer[], property: string, innerProperty?: string){
-    return arr.reduce((memo: Offer[][], x: Offer) => {
-      if (!memo[x[property][innerProperty]]) {
-        memo[x[property][innerProperty]] = [];
+  function groupByCity(arr : Offer[]){
+    return arr.reduce((memo: GroupsFavorites, x: Offer) => {
+      if (!memo[x.city.name]) {
+        memo[x.city.name] = [];
       }
-      memo[x[property][innerProperty]].push(x);
+      memo[x.city.name].push(x);
       return memo;
     }, {});
   }
 
-  const groupsFavorites = groupBy(offers, 'city', 'name');
+  const groupsFavorites = groupByCity(offers);
+
   return(
     <ul className="favorites__list">
-      {Object.keys(groupsFavorites).map((key) => (<OffersListByCity key={key} offers={groupsFavorites[key]}/>))}
+      {Object.keys(groupsFavorites).map((key: keyof GroupsFavorites) => (<OffersListByCity key={key} offers={groupsFavorites[key]}/>))}
     </ul>
   );
 }
