@@ -30,7 +30,7 @@ function App({countPlaces, offers, reviews}: AppProps): JSX.Element {
             </PrivateRoute>
           }
         />
-        <Route path={AppRoute.Offer} element={<OfferScreen offers={offers} reviews={reviews}/>}/>
+        <Route path={AppRoute.Offer} element={<OfferScreen offers={offers} reviews={reviews} city={Amsterdam}/>}/>
         <Route path='*' element={<NotFoundScreen/>}/>
       </Routes>
     </BrowserRouter>
