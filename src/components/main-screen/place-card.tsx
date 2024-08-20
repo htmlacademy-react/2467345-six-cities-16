@@ -4,14 +4,14 @@ import { persentOneStar } from '../../const';
 
 type PlaceCardProps = {
   offer: Offer;
-  onMouseOver: (id: string) => void;
+  onMouseOver?: ((listItemId: string) => void);
 }
 
 function PlaceCard({offer, onMouseOver}: PlaceCardProps): JSX.Element {
   return(
-    <article className="cities__card place-card" onMouseOver={() => {
+    <article className="cities__card place-card" onMouseOver={ onMouseOver ? () => {
       onMouseOver(offer.id);
-    }}
+    } : undefined}
     >
       {offer.isPremium ?
         <div className="place-card__mark">

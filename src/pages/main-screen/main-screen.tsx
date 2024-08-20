@@ -1,9 +1,9 @@
-import OffersList from '../../components/main-screen/offers-list';
 import { Offer } from '../../types/offer';
 import Header from '../../components/header';
 import Map from '../../components/map';
 import { City } from '../../types/city';
 import { useState } from 'react';
+import CitiesPlaceList from '../../components/main-screen/cities-place-list';
 
 type MainScreenProps = {
   countPlaces: number;
@@ -86,7 +86,7 @@ function MainScreen({countPlaces, offers, city}: MainScreenProps): JSX.Element {
                     <li className="places__option" tabIndex={0}>Top rated first</li>
                   </ul>
                 </form>
-                <OffersList offers={offers} onListItemHover={handleListItemHover}/>
+                <CitiesPlaceList offers={offers} onListItemHover={handleListItemHover}/>
               </section>
               <div className="cities__right-section">
                 <section className="cities__map map">
