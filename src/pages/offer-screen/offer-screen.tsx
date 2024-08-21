@@ -4,21 +4,19 @@ import ReviewsForm from '../../components/offer-screen/reviews-form';
 import { Review } from '../../types/review';
 import { Offer } from '../../types/offer';
 import OfferGallery from '../../components/offer-screen/offer-gallary';
-import { persentOneStar } from '../../const';
+import { Cities, persentOneStar } from '../../const';
 import {capitalizeFLetter} from '../../utils';
 import OfferInside from '../../components/offer-screen/offer-inside';
 import ReviewsList from '../../components/offer-screen/reviews-list';
 import Map from '../../components/map';
-import { City } from '../../types/city';
 import NearPlacesList from '../../components/offer-screen/near-places-list';
 
 type OfferScreenProps = {
   offers: Offer[];
   reviews: Review[];
-  city: City;
 }
 
-function OfferScreen({offers, reviews, city}: OfferScreenProps): JSX.Element {
+function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
   const params = useParams();
   const [offer] = offers.filter((o)=>(o.id === params.id));
   return(
@@ -99,7 +97,7 @@ function OfferScreen({offers, reviews, city}: OfferScreenProps): JSX.Element {
             </div>
           </div>
           <section className="offer__map map">
-            <Map city={city} offers={offers} selectedOffer={undefined}/>
+            <Map city={Cities.AMSTERDAM} offers={offers} selectedOffer={undefined}/>
           </section>
         </section>
         <div className="container">

@@ -1,26 +1,36 @@
 import { Offer } from '../../types/offer';
 import Header from '../../components/header';
 import Map from '../../components/map';
-import { City } from '../../types/city';
 import { useState } from 'react';
 import CitiesPlaceList from '../../components/main-screen/cities-place-list';
+import { store } from '../../store';
+import CitiesList from '../../components/main-screen/cities-list';
+import { changeCity } from '../../store/actions';
+import { City } from '../../types/city';
+import { useNavigate } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 type MainScreenProps = {
-  countPlaces: number;
   offers: Offer[];
-  city: City;
 }
 
-function MainScreen({countPlaces, offers, city}: MainScreenProps): JSX.Element {
+function MainScreen({offers}: MainScreenProps): JSX.Element {
+  const navigate = useNavigate();
 
+  const selectedCity = store.getState().city;
+  const offersInCity = offers.filter((offer) => offer.city.name === selectedCity.name);
   const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
     undefined
   );
 
   const handleListItemHover = (listItemId: string) => {
     const currentPoint = offers.find((offer) => offer.id === listItemId);
-
     setSelectedOffer(currentPoint);
+  };
+
+  const handleCitiesListOnClick = (city: City) => {
+    store.dispatch(changeCity(city));
+    navigate(AppRoute.Main);
   };
 
   return (
@@ -32,45 +42,14 @@ function MainScreen({countPlaces, offers, city}: MainScreenProps): JSX.Element {
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <section className="locations container">
-              <ul className="locations__list tabs__list">
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Paris</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Cologne</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Brussels</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item tabs__item--active">
-                    <span>Amsterdam</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Hamburg</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Dusseldorf</span>
-                  </a>
-                </li>
-              </ul>
+              <CitiesList onCityClick={handleCitiesListOnClick}/>
             </section>
           </div>
           <div className="cities">
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{countPlaces} places to stay in Amsterdam</b>
+                <b className="places__found">{offersInCity.length} places to stay in {selectedCity.name}</b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
                   <span className="places__sorting-type" tabIndex={0}>
@@ -86,11 +65,11 @@ function MainScreen({countPlaces, offers, city}: MainScreenProps): JSX.Element {
                     <li className="places__option" tabIndex={0}>Top rated first</li>
                   </ul>
                 </form>
-                <CitiesPlaceList offers={offers} onListItemHover={handleListItemHover}/>
+                <CitiesPlaceList offers={offersInCity} onListItemHover={handleListItemHover}/>
               </section>
               <div className="cities__right-section">
                 <section className="cities__map map">
-                  <Map city={city} offers={offers} selectedOffer={selectedOffer}/>
+                  <Map city={selectedCity} offers={offersInCity} selectedOffer={selectedOffer}/>
                 </section>
               </div>
             </div>
