@@ -12,13 +12,10 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const countPlaces = offers.length;
-
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <App
-        countPlaces = {countPlaces}
         offers = {offers}
         reviews = {reviews}
       />

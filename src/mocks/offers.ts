@@ -193,5 +193,58 @@ export const offers: Offer [] = [
     rating: 3.1,
     bedrooms: 3,
     maxAdults: 1
-  }
+  },
+  {
+    id: '1296bc05-7b4c-40f1-9e84-0596d553244a',
+    title: 'The Joshua Tree House',
+    description: 'I rent out a very sunny and bright apartment only 7 minutes walking distance to the metro station. The apartment has a spacious living room with a kitchen, one bedroom and a bathroom with mit bath. A terrace can be used in summer.',
+    type: 'apartment',
+    price: 340,
+    images: [
+      'https://16.design.htmlacademy.pro/static/hotel/11.jpg',
+      'https://16.design.htmlacademy.pro/static/hotel/20.jpg',
+      'https://16.design.htmlacademy.pro/static/hotel/6.jpg',
+      'https://16.design.htmlacademy.pro/static/hotel/5.jpg',
+      'https://16.design.htmlacademy.pro/static/hotel/16.jpg',
+      'https://16.design.htmlacademy.pro/static/hotel/14.jpg'
+    ],
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 48.85661,
+        longitude: 2.351499,
+        zoom: 13
+      }
+    },
+    location: {
+      latitude: 48.868610000000004,
+      longitude: 2.342499,
+      zoom: 16
+    },
+    goods: [
+      'Breakfast',
+      'Dishwasher',
+      'Cable TV',
+      'Heating',
+      'Washing machine',
+      'Coffee machine',
+      'Kitchen',
+      'Laptop friendly workspace',
+      'Air conditioning',
+      'Washer',
+      'Towels',
+      'Baby seat',
+      'Wi-Fi'
+    ],
+    host: {
+      isPro: true,
+      name: 'Angelina',
+      avatarUrl: 'https://16.design.htmlacademy.pro/static/host/avatar-angelina.jpg'
+    },
+    isPremium: true,
+    isFavorite: true,
+    rating: 3.1,
+    bedrooms: 3,
+    maxAdults: 2
+  },
 ];

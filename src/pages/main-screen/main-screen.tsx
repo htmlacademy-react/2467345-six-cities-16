@@ -4,17 +4,19 @@ import Map from '../../components/map';
 import { useState } from 'react';
 import CitiesPlaceList from '../../components/main-screen/cities-place-list';
 import { Cities } from '../../const';
+import { store } from '../../store';
 
 type MainScreenProps = {
-  countPlaces: number;
   offers: Offer[];
 }
 
-function MainScreen({countPlaces, offers}: MainScreenProps): JSX.Element {
+function MainScreen({offers}: MainScreenProps): JSX.Element {
 
+  const offersInCity = offers.filter((offer) => offer.city.name === store.getState().city.name);
   const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
     undefined
   );
+
 
   const handleListItemHover = (listItemId: string) => {
     const currentPoint = offers.find((offer) => offer.id === listItemId);
@@ -69,7 +71,7 @@ function MainScreen({countPlaces, offers}: MainScreenProps): JSX.Element {
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{countPlaces} places to stay in Amsterdam</b>
+                <b className="places__found">{offersInCity.length} places to stay in {store.getState().city.name}</b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
                   <span className="places__sorting-type" tabIndex={0}>
@@ -85,11 +87,11 @@ function MainScreen({countPlaces, offers}: MainScreenProps): JSX.Element {
                     <li className="places__option" tabIndex={0}>Top rated first</li>
                   </ul>
                 </form>
-                <CitiesPlaceList offers={offers} onListItemHover={handleListItemHover}/>
+                <CitiesPlaceList offers={offersInCity} onListItemHover={handleListItemHover}/>
               </section>
               <div className="cities__right-section">
                 <section className="cities__map map">
-                  <Map city={Cities.AMSTERDAM} offers={offers} selectedOffer={selectedOffer}/>
+                  <Map city={store.getState().city} offers={offersInCity} selectedOffer={selectedOffer}/>
                 </section>
               </div>
             </div>
