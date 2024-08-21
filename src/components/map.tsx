@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import useMap from '../hooks/use-map';
 import { City } from '../types/city';
-import { Icon, layerGroup, Marker} from 'leaflet';
+import { Icon, LatLng, layerGroup, Marker} from 'leaflet';
 import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../const';
 import 'leaflet/dist/leaflet.css';
 import { Offer } from '../types/offer';
@@ -48,9 +48,10 @@ function Map({city, offers, selectedOffer}: MapProps): JSX.Element{
 
       return () => {
         map.removeLayer(markerLayer);
+        map.setView(new LatLng(city.location.latitude, city.location.longitude), city.location.zoom);
       };
     }
-  }, [map, offers, selectedOffer]);
+  }, [city.location.latitude, city.location.longitude, city.location.zoom, map, offers, selectedOffer]);
 
   return <div style={{height: '500px'}} ref={mapRef}></div>;
 }

@@ -5,23 +5,32 @@ import { useState } from 'react';
 import CitiesPlaceList from '../../components/main-screen/cities-place-list';
 import { store } from '../../store';
 import CitiesList from '../../components/main-screen/cities-list';
+import { changeCity } from '../../store/actions';
+import { City } from '../../types/city';
+import { useNavigate } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 type MainScreenProps = {
   offers: Offer[];
 }
 
 function MainScreen({offers}: MainScreenProps): JSX.Element {
+  const navigate = useNavigate();
 
-  const offersInCity = offers.filter((offer) => offer.city.name === store.getState().city.name);
+  const selectedCity = store.getState().city;
+  const offersInCity = offers.filter((offer) => offer.city.name === selectedCity.name);
   const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
     undefined
   );
 
-
   const handleListItemHover = (listItemId: string) => {
     const currentPoint = offers.find((offer) => offer.id === listItemId);
-
     setSelectedOffer(currentPoint);
+  };
+
+  const handleCitiesListOnClick = (city: City) => {
+    store.dispatch(changeCity(city));
+    navigate(AppRoute.Main);
   };
 
   return (
@@ -33,14 +42,14 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <section className="locations container">
-              <CitiesList/>
+              <CitiesList onCityClick={handleCitiesListOnClick}/>
             </section>
           </div>
           <div className="cities">
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offersInCity.length} places to stay in {store.getState().city.name}</b>
+                <b className="places__found">{offersInCity.length} places to stay in {selectedCity.name}</b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
                   <span className="places__sorting-type" tabIndex={0}>
@@ -60,7 +69,7 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
               </section>
               <div className="cities__right-section">
                 <section className="cities__map map">
-                  <Map city={store.getState().city} offers={offersInCity} selectedOffer={selectedOffer}/>
+                  <Map city={selectedCity} offers={offersInCity} selectedOffer={selectedOffer}/>
                 </section>
               </div>
             </div>
