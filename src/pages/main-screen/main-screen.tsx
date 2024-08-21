@@ -1,17 +1,16 @@
 import { Offer } from '../../types/offer';
 import Header from '../../components/header';
 import Map from '../../components/map';
-import { City } from '../../types/city';
 import { useState } from 'react';
 import CitiesPlaceList from '../../components/main-screen/cities-place-list';
+import { Cities } from '../../const';
 
 type MainScreenProps = {
   countPlaces: number;
   offers: Offer[];
-  city: City;
 }
 
-function MainScreen({countPlaces, offers, city}: MainScreenProps): JSX.Element {
+function MainScreen({countPlaces, offers}: MainScreenProps): JSX.Element {
 
   const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
     undefined
@@ -90,7 +89,7 @@ function MainScreen({countPlaces, offers, city}: MainScreenProps): JSX.Element {
               </section>
               <div className="cities__right-section">
                 <section className="cities__map map">
-                  <Map city={city} offers={offers} selectedOffer={selectedOffer}/>
+                  <Map city={Cities.AMSTERDAM} offers={offers} selectedOffer={selectedOffer}/>
                 </section>
               </div>
             </div>
