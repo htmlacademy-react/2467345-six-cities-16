@@ -36,8 +36,8 @@ export const Cities = {
   AMSTERDAM:{
     name: 'Amsterdam',
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
+      latitude: 52.37888,
+      longitude: 4.89999,
       zoom:13
     }
   },
