@@ -84,6 +84,8 @@ export const Cities = {
 
 };
 
+export const TIMEOUT_SHOW_ERROR = 2000;
+
 export const persentOneStar = 20;
 
 export const REVIEW_DATE_FORMAT = 'MMMM DD';
