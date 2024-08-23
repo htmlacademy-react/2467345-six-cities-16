@@ -1,4 +1,4 @@
-import {Route, BrowserRouter, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import { AppRoute } from '../const';
 import MainScreen from '../pages/main-screen/main-screen';
 import FavoritesScreen from '../pages/favorites-screen/favorites-screen';
@@ -7,17 +7,15 @@ import LoginScreen
 import OfferScreen from '../pages/offer-screen/offer-screen';
 import NotFoundScreen from '../pages/not-found-screen/not-found-screen';
 import PrivateRoute from './priavate-route/private-route';
-import { Review } from '../types/review';
 import { useAppSelector } from '../hooks';
+import browserHistory from '../browser-history';
+import HistoryRouter from './history-route';
 
-type AppProps = {
-  reviews: Review[];
-}
-function App({reviews}: AppProps): JSX.Element {
+function App(): JSX.Element {
 
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   return(
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route path={AppRoute.Main} element={<MainScreen/>}/>
         <Route path={AppRoute.Login} element={<LoginScreen/>}/>
@@ -29,10 +27,10 @@ function App({reviews}: AppProps): JSX.Element {
             </PrivateRoute>
           }
         />
-        <Route path={AppRoute.Offer} element={<OfferScreen offers={[]} reviews={reviews}/>}/>
+        <Route path={AppRoute.Offer} element={<OfferScreen offers={[]} reviews={[]}/>}/>
         <Route path='*' element={<NotFoundScreen/>}/>
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 
