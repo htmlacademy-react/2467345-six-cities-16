@@ -1,6 +1,6 @@
 import { OfferItem } from './list-offers';
 
 export type PlacesListProps = {
-  offers: OfferItem[];
+  offers: OfferItem;
   onListItemHover?: (listItemId: string) => void;
  };
