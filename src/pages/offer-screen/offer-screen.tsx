@@ -5,7 +5,7 @@ import { Review } from '../../types/review';
 import { Offer } from '../../types/offer';
 import OfferGallery from '../../components/offer-screen/offer-gallary';
 import { Cities, persentOneStar } from '../../const';
-import {capitalizeFLetter} from '../../utils';
+import {capitalizeFLetter} from '../../utils/utils';
 import OfferInside from '../../components/offer-screen/offer-inside';
 import ReviewsList from '../../components/offer-screen/reviews-list';
 import Map from '../../components/map';

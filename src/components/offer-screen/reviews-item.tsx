@@ -1,6 +1,6 @@
 import { Review } from '../../types/review';
 import { persentOneStar } from '../../const';
-import { UTCToMMDD } from '../../utils';
+import { UTCToMMDD } from '../../utils/utils';
 
 type ReviewsItemProps = {
   review: Review;
