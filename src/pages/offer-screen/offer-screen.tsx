@@ -2,7 +2,6 @@ import { useParams } from 'react-router-dom';
 import Header from '../../components/header';
 import ReviewsForm from '../../components/offer-screen/reviews-form';
 import { Review } from '../../types/review';
-import { Offer } from '../../types/offer';
 import OfferGallery from '../../components/offer-screen/offer-gallary';
 import { Cities, persentOneStar } from '../../const';
 import {capitalizeFLetter} from '../../utils/utils';
@@ -10,9 +9,10 @@ import OfferInside from '../../components/offer-screen/offer-inside';
 import ReviewsList from '../../components/offer-screen/reviews-list';
 import Map from '../../components/map';
 import NearPlacesList from '../../components/offer-screen/near-places-list';
+import { OfferFull } from '../../types/offer-full';
 
 type OfferScreenProps = {
-  offers: Offer[];
+  offers: OfferFull[];
   reviews: Review[];
 }
 
@@ -97,13 +97,13 @@ function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
             </div>
           </div>
           <section className="offer__map map">
-            <Map city={Cities.AMSTERDAM} offers={offers} selectedOffer={undefined}/>
+            <Map city={Cities.AMSTERDAM} offers={[]} selectedOffer={undefined}/>
           </section>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <NearPlacesList offers={offers.slice(0, 3)}/>
+            <NearPlacesList offers={[]}/>
           </section>
         </div>
       </main>
