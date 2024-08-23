@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import { persentOneStar } from '../../const';
-import { OfferItem } from '../../types/list-offers';
+import { Offer } from '../../types/offer';
+
 
 type PlaceCardProps = {
-  offer: OfferItem;
+  offer: Offer;
   onMouseOver?: ((listItemId: string) => void);
 }
 

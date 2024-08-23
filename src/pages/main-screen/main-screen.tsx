@@ -58,7 +58,6 @@ function MainScreen(): JSX.Element {
                     <section className="cities__places places">
                       <h2 className="visually-hidden">Places</h2>
                       <b className="places__found">{offersInCity.length} places to stay in {selectedCity.name}</b>
-
                       <PlacesSort/>
                       <CitiesPlaceList offers={offersInCity} onListItemHover={handleListItemHover}/>
                     </section>
