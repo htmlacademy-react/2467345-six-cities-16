@@ -3,12 +3,12 @@ import { AuthorizationStatus, Cities, SortTypes } from '../const';
 import { changeCity, changeSortType, getOffers, getUserData, requireAuthorization, setError, switchDataLoadingStatus } from './actions';
 import sort from '../utils/sort';
 import { City } from '../types/city';
+import { Offer } from '../types/offer';
 import { UserData } from '../types/user-data';
-import { OfferItem } from '../types/list-offers';
 
 type InitialState = {
   city: City;
-  offers: OfferItem[];
+  offers: Offer[];
   user: UserData | null;
   sortType: string;
   authorizationStatus: AuthorizationStatus;

@@ -3,12 +3,12 @@ import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
 import { APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
 import { getOffers, getUserData, redirectToRoute, requireAuthorization, setError, switchDataLoadingStatus } from './actions';
+import { Offer } from '../types/offer';
 import { saveToken, dropToken } from '../services/token';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 
 import {store} from './';
-import { OfferItem } from '../types/list-offers';
 
 export const clearErrorAction = createAsyncThunk(
   'game/clearError',
@@ -28,7 +28,7 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
   'data/fetchOffers',
   async (_arg, {dispatch, extra: api}) => {
     dispatch(switchDataLoadingStatus(true));
-    const { data } = await api.get<OfferItem[]>(APIRoute.Offers);
+    const { data } = await api.get<Offer[]>(APIRoute.Offers);
     dispatch(switchDataLoadingStatus(false));
     dispatch(getOffers(data));
   }
