@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
 import { APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
-import { getCurrentOffer, getOffers, getUserData, redirectToRoute, requireAuthorization, setError, switchDataLoadingStatus } from './actions';
+import { getComments, getCurrentOffer, getNearestOffers, getOffers, getUserData, redirectToRoute, requireAuthorization, setError, switchDataLoadingStatus } from './actions';
 import { Offer } from '../types/offer';
 import { saveToken, dropToken } from '../services/token';
 import { AuthData } from '../types/auth-data';
@@ -10,6 +10,7 @@ import { UserData } from '../types/user-data';
 
 import {store} from './';
 import { OfferFull } from '../types/offer-full';
+import { Review } from '../types/review';
 
 export const clearErrorAction = createAsyncThunk(
   'game/clearError',
@@ -35,15 +36,39 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
   }
 );
 
-export const fetchCurrentOfferAction = createAsyncThunk<void, Offer, {
+export const fetchCurrentOfferAction = createAsyncThunk<void, string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'data/fetchCurrentOffer',
-  async ({id}, {dispatch, extra: api}) => {
+  async (id, {dispatch, extra: api}) => {
     const { data } = await api.get<OfferFull>(`${APIRoute.Offers}/${id}`);
     dispatch(getCurrentOffer(data));
+  }
+);
+
+export const fetchCommentsAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchComments',
+  async (id, {dispatch, extra: api}) => {
+    const { data } = await api.get<Review[]>(`${APIRoute.Comments}/${id}`);
+    dispatch(getComments(data));
+  }
+);
+
+export const fetchNearestOffersAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchNearestOffers',
+  async (id, {dispatch, extra: api}) => {
+    const { data } = await api.get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`);
+    dispatch(getNearestOffers(data));
   }
 );
 

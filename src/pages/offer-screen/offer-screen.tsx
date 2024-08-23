@@ -1,24 +1,39 @@
 import { useParams } from 'react-router-dom';
 import Header from '../../components/header';
 import ReviewsForm from '../../components/offer-screen/reviews-form';
-import { Review } from '../../types/review';
 import OfferGallery from '../../components/offer-screen/offer-gallary';
-import { Cities, persentOneStar } from '../../const';
+import { persentOneStar } from '../../const';
 import {capitalizeFLetter} from '../../utils/utils';
 import OfferInside from '../../components/offer-screen/offer-inside';
 import ReviewsList from '../../components/offer-screen/reviews-list';
 import Map from '../../components/map';
 import NearPlacesList from '../../components/offer-screen/near-places-list';
-import { OfferFull } from '../../types/offer-full';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
-type OfferScreenProps = {
-  offers: OfferFull[];
-  reviews: Review[];
-}
+import { fetchCommentsAction, fetchCurrentOfferAction, fetchNearestOffersAction } from '../../store/api-actions';
 
-function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
-  const params = useParams();
-  const [offer] = offers.filter((o)=>(o.id === params.id));
+import { useEffect } from 'react';
+
+function OfferScreen(): JSX.Element {
+  const { id } = useParams();
+  const dispatch = useAppDispatch();
+  useEffect(()=>{
+    if (id){
+      dispatch(fetchCurrentOfferAction(id));
+      dispatch(fetchCommentsAction(id));
+      dispatch(fetchNearestOffersAction(id));
+    }
+  }, []);
+  const offer = useAppSelector((state) => state.currentOffer);
+  const comments = useAppSelector((state) => state.comments);
+  const nearestOffers = useAppSelector((state) => state.nearestOffers).slice(1);
+  const city = useAppSelector((state) => state.city);
+
+  console.log(offer);
+  console.log(city);
+  console.log(comments);
+  console.log(nearestOffers);
+
   return(
     <div className="page">
       <Header/>
@@ -90,20 +105,20 @@ function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
-                <ReviewsList reviews={reviews}/>
+                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{0}</span></h2>
+                <ReviewsList reviews={comments}/>
                 <ReviewsForm/>
               </section>
             </div>
           </div>
           <section className="offer__map map">
-            <Map city={Cities.AMSTERDAM} offers={[]} selectedOffer={undefined}/>
+            <Map city={city} offers={nearestOffers} selectedOffer={undefined}/>
           </section>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <NearPlacesList offers={[]}/>
+            <NearPlacesList offers={nearestOffers}/>
           </section>
         </div>
       </main>
