@@ -1,6 +1,5 @@
 import { Cities } from '../../const';
 import { useAppSelector } from '../../hooks';
-import { store } from '../../store';
 import { City } from '../../types/city';
 
 type CitiesListProps = {

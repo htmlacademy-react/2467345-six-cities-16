@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { AppRoute, SortTypes } from '../../const';
 import { useNavigate } from 'react-router-dom';
-import { store } from '../../store';
 import { changeSortType } from '../../store/actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
