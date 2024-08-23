@@ -1,8 +1,8 @@
 import { createAction } from '@reduxjs/toolkit';
 import { City } from '../types/city';
-import { Offer } from '../types/offer';
 import { AppRoute, AuthorizationStatus } from '../const';
 import { UserData } from '../types/user-data';
+import { OfferItem } from '../types/list-offers';
 
 export const Action = {
   CHANGE_CITY: 'CHANGE_CITY',
@@ -17,7 +17,7 @@ export const Action = {
 
 export const changeCity = createAction(Action.CHANGE_CITY, (selectedCity: City) => ({ payload: selectedCity}));
 
-export const getOffers = createAction<Offer[]>(Action.GET_OFFERS);
+export const getOffers = createAction<OfferItem[]>(Action.GET_OFFERS);
 
 export const changeSortType = createAction(Action.CHANGE_SORT, (sortType: string) => ({payload: sortType}));
 
