@@ -11,10 +11,13 @@ import { AppRoute} from '../../const';
 import PlacesSort from '../../components/main-screen/places-sort';
 import MainEmpty from '../../components/main-screen/main-empty';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import Loader from '../../components/loader';
 
 function MainScreen(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
 
   const selectedCity = useAppSelector((state) => state.city);
   const offersInCity = useAppSelector((state) => state.offers)
@@ -46,19 +49,26 @@ function MainScreen(): JSX.Element {
             </section>
           </div>
           <div className="cities">
-            {offersInCity.length === 0 ? <MainEmpty/> :
+            { isOffersLoading ?
+              <Loader/>
+              :
               <div className="cities__places-container container">
-                <section className="cities__places places">
-                  <h2 className="visually-hidden">Places</h2>
-                  <b className="places__found">{offersInCity.length} places to stay in {selectedCity.name}</b>
-                  <PlacesSort/>
-                  <CitiesPlaceList offers={offersInCity} onListItemHover={handleListItemHover}/>
-                </section>
-                <div className="cities__right-section">
-                  <section className="cities__map map">
-                    <Map city={selectedCity} offers={offersInCity} selectedOffer={selectedOffer}/>
-                  </section>
-                </div>
+                {offersInCity.length === 0 ? <MainEmpty/> :
+                  <>
+                    <section className="cities__places places">
+                      <h2 className="visually-hidden">Places</h2>
+                      <b className="places__found">{offersInCity.length} places to stay in {selectedCity.name}</b>
+
+                      <PlacesSort/>
+                      <CitiesPlaceList offers={offersInCity} onListItemHover={handleListItemHover}/>
+                    </section>
+                    <div className="cities__right-section">
+                      <section className="cities__map map">
+                        <Map city={selectedCity} offers={offersInCity} selectedOffer={selectedOffer}/>
+                      </section>
+                    </div>
+                  </>}
+
               </div>}
           </div>
         </main>
