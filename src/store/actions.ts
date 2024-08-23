@@ -3,11 +3,13 @@ import { City } from '../types/city';
 import { Offer } from '../types/offer';
 import { AppRoute, AuthorizationStatus } from '../const';
 import { UserData } from '../types/user-data';
+import { OfferFull } from '../types/offer-full';
 
 export const Action = {
   CHANGE_CITY: 'CHANGE_CITY',
   GET_OFFERS: 'GET_OFFERS',
   GET_USER_DATA: 'GET_USER_DATA',
+  GET_CURRENT_OFFER: 'GET_CURRENT_OFFER',
   CHANGE_SORT: 'CHANGE_SORT',
   REQUIRE_AUTH: 'REQUIRE_AUTH',
   SWITCH_DATA_LOADING_STATUS: 'SWITCH_DATA_LOADING_STATUS',
@@ -18,6 +20,8 @@ export const Action = {
 export const changeCity = createAction(Action.CHANGE_CITY, (selectedCity: City) => ({ payload: selectedCity}));
 
 export const getOffers = createAction<Offer[]>(Action.GET_OFFERS);
+
+export const getCurrentOffer = createAction<OfferFull>(Action.GET_CURRENT_OFFER);
 
 export const changeSortType = createAction(Action.CHANGE_SORT, (sortType: string) => ({payload: sortType}));
 
