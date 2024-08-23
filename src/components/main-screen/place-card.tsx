@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Offer } from '../../types/offer';
 import { persentOneStar } from '../../const';
+import { OfferItem } from '../../types/list-offers';
 
 type PlaceCardProps = {
-  offer: Offer;
+  offer: OfferItem;
   onMouseOver?: ((listItemId: string) => void);
 }
 
@@ -20,7 +20,7 @@ function PlaceCard({offer, onMouseOver}: PlaceCardProps): JSX.Element {
 
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to = {`/offer/${offer.id}`} >
-          <img className="place-card__image" src={offer.images[0]} width="260" height="200" alt="Place image"/>
+          <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image"/>
         </Link>
       </div>
       <div className="place-card__info">

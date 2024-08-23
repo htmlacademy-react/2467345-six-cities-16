@@ -10,6 +10,14 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+export enum APIRoute {
+  Offers = '/offers',
+  Favorite = '/favorite',
+  Comments = '/comments',
+  Login = '/login',
+  Logout = '/logout'
+}
+
 export enum ResidenceType {
   Apartment = 'apartment',
   Room = 'room',
@@ -30,7 +38,7 @@ export const Cities = {
     location: {
       latitude: 52.35514938496378,
       longitude: 4.673877537499948,
-      zoom: 8
+      zoom:13
     }
   },
   PARIS:{
@@ -44,33 +52,33 @@ export const Cities = {
   COLOGNE:{
     name: 'Cologne',
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
-      zoom: 8
+      latitude: 50.938361,
+      longitude: 6.959974,
+      zoom: 13
     }
   },
   BRUSSELS:{
     name: 'Brussels',
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
-      zoom: 8
+      latitude: 50.846557,
+      longitude: 4.351697,
+      zoom: 13
     }
   },
   HAMBURG:{
     name: 'Hamburg',
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
-      zoom: 8
+      latitude: 53.550341,
+      longitude: 10.000654,
+      zoom: 13
     }
   },
   DUSSELDORF:{
     name: 'Dusseldorf',
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
-      zoom: 8
+      latitude: 51.225402,
+      longitude: 6.776314,
+      zoom: 13
     }
   },
 
