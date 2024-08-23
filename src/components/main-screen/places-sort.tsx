@@ -3,10 +3,12 @@ import { AppRoute, SortTypes } from '../../const';
 import { useNavigate } from 'react-router-dom';
 import { store } from '../../store';
 import { changeSortType } from '../../store/actions';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 function PlacesSort(): JSX.Element{
   const navigate = useNavigate();
-  const selectedSortType = store.getState().sortType;
+  const selectedSortType = useAppSelector((state) => state.sortType);
+  const dispatch = useAppDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -14,7 +16,7 @@ function PlacesSort(): JSX.Element{
     setIsOpen(!isOpen);
   };
   const hanldeSortItemClick = (sortType: string) => {
-    store.dispatch(changeSortType(sortType));
+    dispatch(changeSortType(sortType));
     setIsOpen(!isOpen);
     navigate(AppRoute.Main);
   };

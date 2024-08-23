@@ -1,7 +1,7 @@
-import { store } from '../../store';
+import { useAppSelector } from '../../hooks';
 
 function MainEmpty(){
-  const selectedCity = store.getState().city;
+  const selectedCity = useAppSelector((state) => state.city);
   return(
     <div className="cities__places-container cities__places-container--empty container">
       <section className="cities__no-places">

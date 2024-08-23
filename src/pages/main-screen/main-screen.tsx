@@ -3,7 +3,6 @@ import Header from '../../components/header';
 import Map from '../../components/map';
 import { useState } from 'react';
 import CitiesPlaceList from '../../components/main-screen/cities-place-list';
-import { store } from '../../store';
 import CitiesList from '../../components/main-screen/cities-list';
 import { changeCity } from '../../store/actions';
 import { City } from '../../types/city';
@@ -11,12 +10,15 @@ import { useNavigate } from 'react-router-dom';
 import { AppRoute} from '../../const';
 import PlacesSort from '../../components/main-screen/places-sort';
 import MainEmpty from '../../components/main-screen/main-empty';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 function MainScreen(): JSX.Element {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const selectedCity = store.getState().city;
-  const offersInCity = store.getState().offers.filter((offer) => offer.city.name === selectedCity.name);
+  const selectedCity = useAppSelector((state) => state.city);
+  const offersInCity = useAppSelector((state) => state.offers)
+    .filter((offer) => offer.city.name === selectedCity.name);
   const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
     undefined
   );
@@ -27,7 +29,7 @@ function MainScreen(): JSX.Element {
   };
 
   const handleCitiesListOnClick = (city: City) => {
-    store.dispatch(changeCity(city));
+    dispatch(changeCity(city));
     navigate(AppRoute.Main);
   };
 
