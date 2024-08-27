@@ -43,7 +43,9 @@ export const fetchCurrentOfferAction = createAsyncThunk<void, string, {
 }>(
   'data/fetchCurrentOffer',
   async (id, {dispatch, extra: api}) => {
+    dispatch(switchDataLoadingStatus(true));
     const { data } = await api.get<OfferFull>(`${APIRoute.Offers}/${id}`);
+    dispatch(switchDataLoadingStatus(false));
     dispatch(getCurrentOffer(data));
   }
 );
@@ -56,6 +58,7 @@ export const fetchCommentsAction = createAsyncThunk<void, string, {
   'data/fetchComments',
   async (id, {dispatch, extra: api}) => {
     const { data } = await api.get<Review[]>(`${APIRoute.Comments}/${id}`);
+    // dispatch(switchDataLoadingStatus(false));
     dispatch(getComments(data));
   }
 );
@@ -67,7 +70,9 @@ export const fetchNearestOffersAction = createAsyncThunk<void, string, {
 }>(
   'data/fetchNearestOffers',
   async (id, {dispatch, extra: api}) => {
+    // dispatch(switchDataLoadingStatus(true));
     const { data } = await api.get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`);
+    // dispatch(switchDataLoadingStatus(false));
     dispatch(getNearestOffers(data));
   }
 );

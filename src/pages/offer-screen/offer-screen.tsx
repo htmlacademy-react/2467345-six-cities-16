@@ -13,6 +13,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchCommentsAction, fetchCurrentOfferAction, fetchNearestOffersAction } from '../../store/api-actions';
 
 import { useEffect } from 'react';
+import Loader from '../../components/loader';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 function OfferScreen(): JSX.Element {
   const { id } = useParams();
@@ -23,107 +25,129 @@ function OfferScreen(): JSX.Element {
       dispatch(fetchCommentsAction(id));
       dispatch(fetchNearestOffersAction(id));
     }
-  }, []);
+  }, [dispatch, id]);
+  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
   const offer = useAppSelector((state) => state.currentOffer);
   const comments = useAppSelector((state) => state.comments);
-  const nearestOffers = useAppSelector((state) => state.nearestOffers).slice(1);
   const city = useAppSelector((state) => state.city);
 
-  console.log(offer);
-  console.log(city);
-  console.log(comments);
-  console.log(nearestOffers);
+  const nearestOffers = useAppSelector((state) => state.nearestOffers).slice(0,3);
+  const [selectedOffer] = useAppSelector((state) => state.offers).filter((o) => o.id === id);
+  const offersForMap = [... nearestOffers, selectedOffer];
 
-  return(
-    <div className="page">
-      <Header/>
+  if(isOffersLoading){
+    return <Loader/>;
+  }
 
-      <main className="page__main page__main--offer">
-        <section className="offer">
-          <OfferGallery images={offer.images}/>
-          <div className="offer__container container">
-            <div className="offer__wrapper">
+  if (offer) {
+    const {
+      title,
+      type,
+      price,
+      isFavorite,
+      isPremium,
+      rating,
+      description,
+      goods,
+      host,
+      maxAdults,
+      bedrooms,
+      images
+    } = offer;
+    return(
+      <div className="page">
+        <Header/>
+        { isOffersLoading ?
+          <Loader/>
+          :
+          <main className="page__main page__main--offer">
+            <section className="offer">
+              <OfferGallery images={images}/>
+              <div className="offer__container container">
+                <div className="offer__wrapper">
 
-              {offer.isPremium ?
-                <div className="offer__mark">
-                  <span>Premium</span>
-                </div> : null}
+                  {isPremium ?
+                    <div className="offer__mark">
+                      <span>Premium</span>
+                    </div> : null}
 
-              <div className="offer__name-wrapper">
-                <h1 className="offer__name">
-                  {offer.title}
-                </h1>
-                <button className={`offer__bookmark-button${offer.isFavorite ? '--active' : ''} button`} type="button">
-                  <svg className="offer__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
-              </div>
-              <div className="offer__rating rating">
-                <div className="offer__stars rating__stars">
-                  <span style={{ width:`${ Math.round(offer.rating) * persentOneStar}%`}}></span>
-                  <span className="visually-hidden">Rating</span>
-                </div>
-                <span className="offer__rating-value rating__value">{offer.rating}</span>
-              </div>
-              <ul className="offer__features">
-                <li className="offer__feature offer__feature--entire">
-                  {capitalizeFLetter(offer.type)}
-                </li>
-                <li className="offer__feature offer__feature--bedrooms">
-                  {offer.bedrooms}
-                  {offer.bedrooms === 1 ? ' Bedroom' : ' Bedrooms'}
-                </li>
-                <li className="offer__feature offer__feature--adults">
-                  Max {offer.maxAdults} {offer.maxAdults === 1 ? ' Adult' : ' Adults'}
-                </li>
-              </ul>
-              <div className="offer__price">
-                <b className="offer__price-value">&euro;{offer.price}</b>
-                <span className="offer__price-text">&nbsp;night</span>
-              </div>
-              <OfferInside goods={offer.goods}/>
-              <div className="offer__host">
-                <h2 className="offer__host-title">Meet the host</h2>
-                <div className="offer__host-user user">
-                  <div className={`offer__avatar-wrapper offer__avatar-wrapper${offer.host.isPro ? '--pro' : ''} user__avatar-wrapper`}>
-                    <img className="offer__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar"/>
+                  <div className="offer__name-wrapper">
+                    <h1 className="offer__name">
+                      {title}
+                    </h1>
+                    <button className={`offer__bookmark-button${isFavorite ? '--active' : ''} button`} type="button">
+                      <svg className="offer__bookmark-icon" width="31" height="33">
+                        <use xlinkHref="#icon-bookmark"></use>
+                      </svg>
+                      <span className="visually-hidden">To bookmarks</span>
+                    </button>
                   </div>
-                  <span className="offer__user-name">
-                    {offer.host.name}
-                  </span>
-                  {offer.host.isPro ?
-                    <span className="offer__user-status">
+                  <div className="offer__rating rating">
+                    <div className="offer__stars rating__stars">
+                      <span style={{ width:`${ Math.round(rating) * persentOneStar}%`}}></span>
+                      <span className="visually-hidden">Rating</span>
+                    </div>
+                    <span className="offer__rating-value rating__value">{rating}</span>
+                  </div>
+                  <ul className="offer__features">
+                    <li className="offer__feature offer__feature--entire">
+                      {capitalizeFLetter(type)}
+                    </li>
+                    <li className="offer__feature offer__feature--bedrooms">
+                      {bedrooms}
+                      {bedrooms === 1 ? ' Bedroom' : ' Bedrooms'}
+                    </li>
+                    <li className="offer__feature offer__feature--adults">
+                  Max {maxAdults} {maxAdults === 1 ? ' Adult' : ' Adults'}
+                    </li>
+                  </ul>
+                  <div className="offer__price">
+                    <b className="offer__price-value">&euro;{price}</b>
+                    <span className="offer__price-text">&nbsp;night</span>
+                  </div>
+                  <OfferInside goods={goods}/>
+                  <div className="offer__host">
+                    <h2 className="offer__host-title">Meet the host</h2>
+                    <div className="offer__host-user user">
+                      <div className={`offer__avatar-wrapper offer__avatar-wrapper${host.isPro ? '--pro' : ''} user__avatar-wrapper`}>
+                        <img className="offer__avatar user__avatar" src={host.avatarUrl} width="74" height="74" alt="Host avatar"/>
+                      </div>
+                      <span className="offer__user-name">
+                        {host.name}
+                      </span>
+                      {host.isPro ?
+                        <span className="offer__user-status">
                       Pro
-                    </span> : null }
-                </div>
-                <div className="offer__description">
-                  <p className="offer__text">
-                    {offer.description}
-                  </p>
+                        </span> : null }
+                    </div>
+                    <div className="offer__description">
+                      <p className="offer__text">
+                        {description}
+                      </p>
+                    </div>
+                  </div>
+                  <section className="offer__reviews reviews">
+                    <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
+                    <ReviewsList reviews={comments}/>
+                    <ReviewsForm/>
+                  </section>
                 </div>
               </div>
-              <section className="offer__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{0}</span></h2>
-                <ReviewsList reviews={comments}/>
-                <ReviewsForm/>
+              <section className="offer__map map">
+                <Map city={city} offers={offersForMap} selectedOffer={selectedOffer}/>
+              </section>
+            </section>
+            <div className="container">
+              <section className="near-places places">
+                <h2 className="near-places__title">Other places in the neighbourhood</h2>
+                <NearPlacesList offers={nearestOffers}/>
               </section>
             </div>
-          </div>
-          <section className="offer__map map">
-            <Map city={city} offers={nearestOffers} selectedOffer={undefined}/>
-          </section>
-        </section>
-        <div className="container">
-          <section className="near-places places">
-            <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <NearPlacesList offers={nearestOffers}/>
-          </section>
-        </div>
-      </main>
-    </div>
-  );
-}
+          </main>}
 
+      </div>
+    );
+  }
+  return <NotFoundScreen />;
+}
 export default OfferScreen;
