@@ -13,6 +13,7 @@ export const Action = {
   GET_CURRENT_OFFER: 'GET_CURRENT_OFFER',
   GET_COMMENTS: 'GET_COMMENTS',
   GET_NEAREST_OFFERS: 'GET_NEAREST_OFFERS',
+  ADD_COMMENT: 'ADD_COMMENT',
   CHANGE_SORT: 'CHANGE_SORT',
   REQUIRE_AUTH: 'REQUIRE_AUTH',
   SWITCH_DATA_LOADING_STATUS: 'SWITCH_DATA_LOADING_STATUS',
@@ -29,6 +30,8 @@ export const getCurrentOffer = createAction<OfferFull>(Action.GET_CURRENT_OFFER)
 export const getComments = createAction<Review[]>(Action.GET_COMMENTS);
 
 export const getNearestOffers = createAction<Offer[]>(Action.GET_NEAREST_OFFERS);
+
+export const addComment = createAction<Review | null>(Action.ADD_COMMENT);
 
 export const changeSortType = createAction(Action.CHANGE_SORT, (sortType: string) => ({payload: sortType}));
 

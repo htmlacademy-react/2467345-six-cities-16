@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { AuthorizationStatus, Cities, SortTypes } from '../const';
-import { changeCity, changeSortType, getComments, getCurrentOffer, getNearestOffers, getOffers, getUserData, requireAuthorization, setError, switchDataLoadingStatus } from './actions';
+import { addComment, changeCity, changeSortType, getComments, getCurrentOffer, getNearestOffers, getOffers, getUserData, requireAuthorization, setError, switchDataLoadingStatus } from './actions';
 import sort from '../utils/sort';
 import { City } from '../types/city';
 import { Offer } from '../types/offer';
@@ -13,6 +13,7 @@ type InitialState = {
   offers: Offer[];
   currentOffer: OfferFull | null;
   comments: Review[];
+  newComment: Review | null;
   nearestOffers: Offer[];
   user: UserData | null;
   sortType: string;
@@ -26,6 +27,7 @@ const initialState: InitialState = {
   offers: [],
   currentOffer: null,
   comments: [],
+  newComment: null,
   nearestOffers: [],
   user: null,
   sortType: SortTypes.POPULAR,
@@ -47,6 +49,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(getComments, (state, action) => {
       state.comments = action.payload;
+    })
+    .addCase(addComment, (state, action) => {
+      state.newComment = action.payload;
     })
     .addCase(getNearestOffers, (state, action) => {
       state.nearestOffers = action.payload;

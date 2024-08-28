@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import Header from '../../components/header';
 import ReviewsForm from '../../components/offer-screen/reviews-form';
 import OfferGallery from '../../components/offer-screen/offer-gallary';
-import { persentOneStar } from '../../const';
+import { AuthorizationStatus, persentOneStar } from '../../const';
 import {capitalizeFLetter} from '../../utils/utils';
 import OfferInside from '../../components/offer-screen/offer-inside';
 import ReviewsList from '../../components/offer-screen/reviews-list';
@@ -12,9 +12,11 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { fetchCommentsAction, fetchCurrentOfferAction, fetchNearestOffersAction } from '../../store/api-actions';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Loader from '../../components/loader';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+import { Review } from '../../types/review';
+import { addComment } from '../../store/actions';
 
 function OfferScreen(): JSX.Element {
   const { id } = useParams();
@@ -28,12 +30,26 @@ function OfferScreen(): JSX.Element {
   }, [dispatch, id]);
   const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
   const offer = useAppSelector((state) => state.currentOffer);
-  const comments = useAppSelector((state) => state.comments);
   const city = useAppSelector((state) => state.city);
+  const isAuth = useAppSelector((state) => state.authorizationStatus);
+
+  const [comments, setComments] = useState<Review[]>([]);
+  const currentComments = useAppSelector((state) => state.comments);
+  useEffect(() => {
+    setComments(currentComments);
+  }, [currentComments]);
 
   const nearestOffers = useAppSelector((state) => state.nearestOffers).slice(0,3);
   const [selectedOffer] = useAppSelector((state) => state.offers).filter((o) => o.id === id);
   const offersForMap = [... nearestOffers, selectedOffer];
+
+  const newComment = useAppSelector((state) => state.newComment);
+  if (newComment){
+    if(id){
+      dispatch(fetchCommentsAction(id));
+    }
+    dispatch(addComment(null));
+  }
 
   if(isOffersLoading){
     return <Loader/>;
@@ -129,7 +145,7 @@ function OfferScreen(): JSX.Element {
                   <section className="offer__reviews reviews">
                     <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
                     <ReviewsList reviews={comments}/>
-                    <ReviewsForm/>
+                    {isAuth === AuthorizationStatus.Auth ? <ReviewsForm/> : null}
                   </section>
                 </div>
               </div>
