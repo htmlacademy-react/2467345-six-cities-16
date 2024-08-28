@@ -12,7 +12,6 @@ import browserHistory from '../browser-history';
 import HistoryRouter from './history-route';
 
 function App(): JSX.Element {
-
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   return(
     <HistoryRouter history={browserHistory}>
@@ -27,7 +26,7 @@ function App(): JSX.Element {
             </PrivateRoute>
           }
         />
-        <Route path={AppRoute.Offer} element={<OfferScreen offers={[]} reviews={[]}/>}/>
+        <Route path={AppRoute.Offer} element={<OfferScreen/>}/>
         <Route path='*' element={<NotFoundScreen/>}/>
       </Routes>
     </HistoryRouter>
